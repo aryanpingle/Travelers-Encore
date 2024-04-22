@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 10px;
+    background-color: black;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* height: 100%; */
+    height: 100vh;
+}
+
+@media(min-width: 720px) {
+    body {
+        height: 100vh;
+    }
+}
+
+svg#radial-svg {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+g[id^=group_] {
+    --bkg: hsl(0, 50%, 20%);
+
+    -webkit-tap-highlight-color: transparent;
+    transition: 250ms ease;
+    transition-property: all;
+}
+
+g[id^=group_]:not(.playing) {
+    filter: saturate(0.25);
+}
+
+g[id^=group_]:hover {
+    cursor: pointer;
+    filter: saturate(1);
+}
+
+g[id^=group_] > path {
+    transition: fill 250ms ease;
+}
+
+g[id^=group_].playing > path {
+    fill: var(--bkg);
+}
+
+#group_hourglass-twins {
+    --bkg: hsl(30, 50%, 20%);
+}
+#group_dark-bramble {
+    --bkg: hsl(195, 0%, 15%);
+}
+#group_giant-s-deep {
+    --bkg: hsl(165, 50%, 20%);
+}
+#group_brittle-hollow {
+    --bkg: hsl(280, 30%, 24%);
+}
+#group_timber-hearth {
+    --bkg: hsl(195, 50%, 25%);
+}
+#group_quantum-moon {
+    --bkg: hsl(215, 75%, 28%);
+}
+#group_the-stranger {
+    --bkg: hsl(143deg, 65%, 30%);
+}
+
+svg#radial-svg image {
+    pointer-events: none;
+    user-select: none;
+}

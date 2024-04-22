@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440" height="1440" viewBox="0 0 1440 1440" fill="none" id="radial-svg">
+	<g id="radial" clip-path="url(#clip0_5_48)">
+		<g id="group_dark-bramble">
+			<path id="sector_dark-bramble" d="M1440 720C1440 611.834 1415.63 505.058 1368.7 407.604C1321.77 310.149 1253.48 224.522 1168.91 157.081L720 720L1440 720Z" fill="transparent"/>
+			<image href="./assets/planet-icons/dark-bramble.png" id="icon_dark-bramble" x="1037" y="399" width="236" height="236"/>
+		</g>
+		<g id="group_brittle-hollow">
+			<path id="sector_brittle-hollow" d="M1168.91 157.081C1084.35 89.641 985.669 42.1211 880.215 18.0519C774.761 -6.01731 665.239 -6.01731 559.785 18.0519L720 720L1168.91 157.081Z" fill="transparent"/>
+			<image href="./assets/planet-icons/brittle-hollow.png" id="icon_brittle-hollow" x="729" y="154" width="195" height="195"/>
+		</g>
+		<g id="group_the-stranger">
+			<path id="sector_the-stranger" d="M559.767 18.0559C454.314 42.1277 355.639 89.65 271.073 157.093C186.507 224.535 118.224 310.165 71.2945 407.62L720 720L559.767 18.0559Z" fill="transparent"/>
+			<image href="./assets/planet-icons/the-stranger.png" id="icon_the-stranger" x="328" y="255" width="183" height="183"/>
+		</g>
+		<g id="group_quantum-moon">
+			<path id="sector_quantum-moon" d="M71.2869 407.636C24.3602 505.093 -0.00540529 611.87 8.99297e-07 720.036C0.00540709 828.202 24.3817 934.977 71.3181 1032.43L720 720L71.2869 407.636Z" fill="transparent"/>
+			<image href="./assets/planet-icons/quantum-moon.png" id="icon_quantum-moon" x="155" y="635" width="170" height="170"/>
+		</g>
+		<g id="group_hourglass-twins">
+			<path id="sector_hourglass-twins" d="M71.3258 1032.44C118.265 1129.9 186.557 1215.52 271.13 1282.95C355.702 1350.39 454.382 1397.9 559.838 1421.96L720 720L71.3258 1032.44Z" fill="transparent"/>
+			<image href="./assets/planet-icons/hourglass-twins.png" id="icon_hourglass-twins" x="400.167" y="1220.28" width="123" height="254" transform="rotate(-141.43 400.167 1220.28)"/>
+		</g>
+		<g id="group_timber-hearth">
+			<path id="sector_timber-hearth" d="M559.855 1421.96C665.311 1446.02 774.834 1446.01 880.285 1421.93C985.737 1397.85 1084.41 1350.32 1168.97 1282.87L720 720L559.855 1421.96Z" fill="transparent"/>
+			<image href="./assets/planet-icons/timber-hearth.png" id="icon_timber-hearth" width="180" height="293" transform="matrix(0.974917 -0.22257 -0.22257 -0.974917 762.213 1305.71)"/>
+		</g>
+		<g id="group_giant-s-deep">
+			<path id="sector_giant-s-deep" d="M1168.98 1282.86C1253.54 1215.41 1321.82 1129.78 1368.74 1032.32C1415.66 934.855 1440.01 828.076 1440 719.91L720 720L1168.98 1282.86Z" fill="transparent"/>
+			<image href="./assets/planet-icons/giant-s-deep.png" id="icon_giant-s-deep" x="992" y="757" width="326" height="326"/>
+		</g>
+	</g>
+	<defs>
+		<pattern id="pattern0_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image0_5_48" transform="scale(0.00423729)"/>
+		</pattern>
+		<pattern id="pattern1_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image1_5_48" transform="scale(0.00512821)"/>
+		</pattern>
+		<pattern id="pattern2_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image2_5_48" transform="scale(0.00546448)"/>
+		</pattern>
+		<pattern id="pattern3_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image3_5_48" transform="scale(0.00588235)"/>
+		</pattern>
+		<pattern id="pattern4_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image4_5_48" transform="scale(0.00813008 0.00393701)"/>
+		</pattern>
+		<pattern id="pattern5_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image5_5_48" transform="scale(0.00555556 0.00341297)"/>
+		</pattern>
+		<pattern id="pattern6_5_48" patternContentUnits="objectBoundingBox" width="1" height="1">
+			<use xlink:href="#image6_5_48" transform="scale(0.00306748)"/>
+		</pattern>
+		<clipPath id="clip0_5_48">
+			<rect width="1440" height="1440" fill="white"/>
+		</clipPath>
+	</defs>
+</svg>
