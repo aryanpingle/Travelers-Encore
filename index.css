@@ -1,79 +1,171 @@
+:root {
+    font-size: 25px;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    padding: 10px;
+    padding: 1em;
     background-color: black;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+}
+
+@media(min-width: 1025px) {
+    body {
+        height: 100vh;
+
+        flex-direction: row-reverse;
+    }
+}
+
+/*
+///////////////////////////////////
+//       .panel-interactive      //
+//                               //
+//    All traveller cards and    //
+//             audios            //
+///////////////////////////////////
+*/
+
+.panel-interactive {
+    /* background-color: red; */
+
+    display: flex;
+    flex-direction: column;
+    object-fit: contain;
+
+    height: 100%;
+    overflow: auto;
+}
+
+@media(min-width: 1025px) {
+    .panel-interactive {
+        flex: 6 0 0;
+    }
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container > img {
+    margin: auto;
+    max-height: 5em;
+    max-width: 100%;
+}
+
+/* Narrow: Shown */
+.panel-interactive__logo {
+    /* background-color: cyan; */
+    flex: 0 0 auto;
+}
+
+@media(min-width: 1025px) {
+    .panel-interactive__logo {
+        display: none;
+    }
+}
+
+.traveller-grid {
+    max-height: 100%;
+    flex: 1 0 0;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+
+    justify-items: center;
+    align-items: center;
+}
+
+.traveller-card {
+    --fraction: 0;
+
+    height: 100%;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+.traveller-card__inner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.traveller-card__icon {
+    width: 100%;
+    flex: 1 0 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* height: 100%; */
-    height: 100vh;
+    overflow: hidden;
 }
 
-@media(min-width: 720px) {
-    body {
-        height: 100vh;
+.traveller-card__icon > svg {
+    height: 75%;
+    width: 75%;
+
+    --bloom-color: hsl(219, 100%, 50%);
+    --base-color: hsl(219, 100%, 75%);
+    color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
+
+    filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
+}
+
+.traveller-card__audio {
+    flex: 0 0 auto;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.volume-range-input {
+    width: 75%;
+}
+
+/*
+///////////////////////////////////
+//          .panel-info          //
+//                               //
+//      Logo and about text      //
+///////////////////////////////////
+*/
+
+.panel-info {
+    flex: 0 0 auto;
+}
+
+@media(min-width: 1025px) {
+    .panel-info {
+        flex: 4 0 0;
     }
 }
 
-svg#radial-svg {
-    max-height: 100%;
-    max-width: 100%;
+/* Narrow: Hidden */
+.panel-info__logo {
+    display: none;
 }
 
-g[id^=group_] {
-    --bkg: hsl(0, 50%, 20%);
-
-    -webkit-tap-highlight-color: transparent;
-    transition: 250ms ease;
-    transition-property: all;
-}
-
-g[id^=group_]:not(.playing) {
-    filter: saturate(0.25);
-}
-
-g[id^=group_]:hover {
-    cursor: pointer;
-    filter: saturate(1);
-}
-
-g[id^=group_] > path {
-    transition: fill 250ms ease;
-}
-
-g[id^=group_].playing > path {
-    fill: var(--bkg);
-}
-
-#group_hourglass-twins {
-    --bkg: hsl(30, 50%, 20%);
-}
-#group_dark-bramble {
-    --bkg: hsl(195, 0%, 15%);
-}
-#group_giant-s-deep {
-    --bkg: hsl(165, 50%, 20%);
-}
-#group_brittle-hollow {
-    --bkg: hsl(280, 30%, 24%);
-}
-#group_timber-hearth {
-    --bkg: hsl(195, 50%, 25%);
-}
-#group_quantum-moon {
-    --bkg: hsl(215, 75%, 28%);
-}
-#group_the-stranger {
-    --bkg: hsl(143deg, 65%, 30%);
-}
-
-svg#radial-svg image {
-    pointer-events: none;
-    user-select: none;
+@media(min-width: 1025px) {
+    .panel-info__logo {
+        display: flex;
+    }
 }
