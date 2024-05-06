@@ -2,30 +2,44 @@ const travellers = [
     {
         "name": "Riebeck",
         "location-slug": "brittle-hollow",
+        "bloom-color": "hsl(250, 100%, 50%)",
+        "base-color": "hsl(250, 100%, 75%)",
     },
     {
         "name": "Feldspar",
         "location-slug": "dark-bramble",
+        "bloom-color": "hsl(200, 100%, 50%)",
+        "base-color": "hsl(200, 100%, 75%)",
     },
     {
         "name": "Gabbro",
         "location-slug": "giants-deep",
+        "bloom-color": "hsl(150, 100%, 50%)",
+        "base-color": "hsl(150, 100%, 75%)",
     },
     {
         "name": "Chert",
         "location-slug": "hourglass-twins",
+        "bloom-color": "hsl(30, 100%, 50%)",
+        "base-color": "hsl(30, 100%, 75%)",
     },
     {
         "name": "Esker",
         "location-slug": "timber-hearth",
+        "bloom-color": "hsl(175, 100%, 50%)",
+        "base-color": "hsl(175, 100%, 75%)",
     },
     {
         "name": "Solanum",
         "location-slug": "quantum-moon",
+        "bloom-color": "hsl(50, 100%, 50%)",
+        "base-color": "hsl(50, 100%, 75%)",
     },
     {
         "name": "Prisoner",
         "location-slug": "the-stranger",
+        "bloom-color": "hsl(125, 75%, 50%)",
+        "base-color": "hsl(125, 75%, 75%)",
     },
 ];
 
@@ -41,6 +55,10 @@ function getTravellerIndex(name) {
 let numAudiosReady = 0;
 let isFirstVolumeInteraction = true;
 let allAudiosSetup = false;
+
+// Checks if the given audio has been interacted at least once before
+// Useful for syncing this audio with the first one that is playing
+const hasInteracted = new Array(travellers.length).fill(false);
 
 const audios = travellers.map(info => {
     return new Audio(`./music/${info["name"]}.mp3`);
@@ -87,9 +105,10 @@ function getTravellerCardHTML(info) {
     embedTravellerSVG(info);
     
     return `
-    <div class="traveller-card" data-traveller-name="${name}">
+    <div class="traveller-card" data-traveller-name="${name}" style="--bloom-color: ${info["bloom-color"]}; --base-color: ${info["base-color"]};">
         <div class="traveller-card__inner">
-            <div class="traveller-card__icon" data-traveller-name="${name}"></div>
+            <div class="traveller-card__icon" data-traveller-name="${name}" style="--bloom-color: ${info["bloom-color"]}; --base-color: ${info["base-color"]};"></div>
+            <div class="traveller-card__name" data-traveller-name="${name}">${name}</div>
             <div class="traveller-card__audio">
                 <input type="range" data-traveller-name="${name}" class="volume-range-input" min="0" max="100" value="0">
             </div>
@@ -122,6 +141,20 @@ function setVolume(travellerName, percent) {
     }
 
     let travellerIndex = getTravellerIndex(travellerName);
+
+    if(hasInteracted[travellerIndex] === false) {
+        // Sync this with the one that's been interacted with
+        for(let i = 0; i < travellers.length; ++i) {
+            if(i == travellerIndex) continue;
+
+            if(hasInteracted[i] === false) {
+                // Sync up with this audio
+                audios[travellerIndex].currentTime = audios[i].currentTime;
+                break;
+            }
+        }
+        hasInteracted[travellerIndex] = true;
+    }
 
     const audio = audios[travellerIndex];
     audio.volume = percent / 100;

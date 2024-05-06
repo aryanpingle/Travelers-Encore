@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 :root {
+    font-family: "Space Mono", monospace;
     font-size: 25px;
 }
 
@@ -115,17 +118,27 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
+    --bloom-color: hsl(210, 100%, 50%);
+    --base-color: hsl(210, 100%, 75%);
+    color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
+
+    filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
 }
 
 .traveller-card__icon > svg {
     height: 75%;
     width: 75%;
+}
 
-    --bloom-color: hsl(219, 100%, 50%);
-    --base-color: hsl(219, 100%, 75%);
-    color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
+.traveller-card__name {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 1em 0;
 
-    filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
+    font-size: 0.75em;
+
+    text-align: center;
 }
 
 .traveller-card__audio {
@@ -138,6 +151,7 @@ body {
 }
 
 .volume-range-input {
+    accent-color: var(--base-color);
     width: 75%;
 }
 
