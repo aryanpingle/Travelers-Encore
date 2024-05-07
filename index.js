@@ -52,9 +52,7 @@ function getTravellerIndex(name) {
     return -1;
 }
 
-let numAudiosReady = 0;
-let isFirstVolumeInteraction = true;
-let allAudiosSetup = false;
+let isFirstInteraction = true;
 
 // Checks if the given audio has been interacted at least once before
 // Useful for syncing this audio with the first one that is playing
@@ -68,16 +66,6 @@ function setup() {
     audios.forEach(audio => {
         audio.loop = true;
         audio.volume = 0;
-        
-        audio.oncanplay = () => {
-            if(allAudiosSetup) return;
-    
-            numAudiosReady++;
-            if (numAudiosReady == travellers.length) {
-                allAudiosSetup = true;
-                allAudiosReady();
-            }
-        }
     })
     setupTravellerCards();
 }
@@ -126,6 +114,13 @@ async function embedTravellerSVG(info) {
 
 function setupTravellerAudios() {
     document.querySelectorAll(".volume-range-input").forEach(input => {
+        // Yes, two listeners are necessary. This is to ensure at least one
+        // is run after the first user interaction.
+        input.onchange = event => {
+            const travellerName = input.getAttribute("data-traveller-name");
+            const percent = input.value;
+            setVolume(travellerName, percent);
+        }
         input.oninput = event => {
             const travellerName = input.getAttribute("data-traveller-name");
             const percent = input.value;
@@ -134,26 +129,35 @@ function setupTravellerAudios() {
     })
 }
 
+function syncSpecificAudio(travellerIndex) {
+    console.log(`trying to sync traveller idx ${travellerIndex} with others`);
+    // Sync this with the one that's been interacted with
+    for(let i = 0; i < travellers.length; ++i) {
+        if(i == travellerIndex) continue;
+
+        if(hasInteracted[i] === false) {
+            // Sync up with this audio
+            audios[travellerIndex].currentTime = audios[i].currentTime;
+            break;
+        }
+    }
+    hasInteracted[travellerIndex] = true;
+}
+
 function setVolume(travellerName, percent) {
-    if(isFirstVolumeInteraction) {
+    if(isFirstInteraction === true) {
+        isFirstInteraction = false;
+        return;
+    }
+    else if(isFirstInteraction === false) {
+        isFirstInteraction = null;
         playAllAudios();
-        isFirstVolumeInteraction = false;
     }
 
     let travellerIndex = getTravellerIndex(travellerName);
 
     if(hasInteracted[travellerIndex] === false) {
-        // Sync this with the one that's been interacted with
-        for(let i = 0; i < travellers.length; ++i) {
-            if(i == travellerIndex) continue;
-
-            if(hasInteracted[i] === false) {
-                // Sync up with this audio
-                audios[travellerIndex].currentTime = audios[i].currentTime;
-                break;
-            }
-        }
-        hasInteracted[travellerIndex] = true;
+        syncSpecificAudio(travellerIndex);
     }
 
     const audio = audios[travellerIndex];
@@ -165,15 +169,7 @@ function setVolume(travellerName, percent) {
 
 setup();
 
-// TODO: Switching tabs seemingly causes the browser to pause muted audios
-// Switch to a play-only-on-press model
-// Synchronize the played audio with an already playing audio
-function allAudiosReady() {
-    console.log("All audios are ready!");
-}
-
 function playAllAudios() {
-    console.log("breh");
     for(const audio of audios) {
         audio.play();
     }
