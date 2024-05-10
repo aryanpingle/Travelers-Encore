@@ -68,11 +68,38 @@ function setup() {
         audio.volume = 0;
     })
     setupTravellerCards();
+    setupMediaControls();
+    startDeviationChecker();
+}
+
+function setupMediaControls() {
+    // Asynchronously get the SVGs and embed them (media control panel)
+    document.querySelectorAll(".control-icon").forEach(icon_div => {
+        const svgURL = `assets/icons/${icon_div.getAttribute("svg-name")}.svg`;
+        embedSVG(svgURL, icon_div);
+    })
+
+    document.querySelector("#button--play").onclick = playAll;
+    document.querySelector("#button--pause").onclick = pauseAll;
+    document.querySelector("#button--volume-0").onclick = () => setVolumeAll(0);
+    document.querySelector("#button--volume-100").onclick = () => setVolumeAll(100);
+    document.querySelector("#button--sync").onclick = sync;
+}
+
+function setDeviation() {
+    const currentTimes = audios.map(audio => Math.round(1000 * (audio.currentTime - audios[0].currentTime)) / 1000);
+    const deviationMs = Math.max(...currentTimes) - Math.min(...currentTimes) * 1000;
+    document.querySelector(".deviation-amount").innerHTML = Math.round(deviationMs) + " ms";
+}
+
+function startDeviationChecker() {
+    setInterval(setDeviation, 2000);
 }
 
 /**
  * Creates a card for each traveller
  * Calls setupTravellerAudios
+ * Creates the media control panel
  */
 function setupTravellerCards() {
     const container = document.querySelector(".traveller-grid");
@@ -82,20 +109,24 @@ function setupTravellerCards() {
     for(const info of travellers) {
         containerInnerHTML += getTravellerCardHTML(info);
     }
+
     container.innerHTML = containerInnerHTML;
+
+    // Asynchronously get the SVGs and embed them (traveller icons)
+    for(const info of travellers) {
+        embedTravellerSVG(info);
+    }
 
     setupTravellerAudios();
 }
 
 function getTravellerCardHTML(info) {
     const name = info["name"];
-
-    embedTravellerSVG(info);
     
     return `
     <div class="traveller-card" data-traveller-name="${name}" style="--bloom-color: ${info["bloom-color"]}; --base-color: ${info["base-color"]};">
         <div class="traveller-card__inner">
-            <div class="traveller-card__icon" data-traveller-name="${name}" style="--bloom-color: ${info["bloom-color"]}; --base-color: ${info["base-color"]};"></div>
+            <div class="traveller-card__icon" data-traveller-name="${name}"></div>
             <div class="traveller-card__name" data-traveller-name="${name}">${name}</div>
             <div class="traveller-card__audio">
                 <input type="range" data-traveller-name="${name}" class="volume-range-input" min="0" max="100" value="0">
@@ -112,6 +143,11 @@ async function embedTravellerSVG(info) {
     document.querySelector(`.traveller-card__icon[data-traveller-name="${name}"]`).innerHTML = svg;
 }
 
+async function embedSVG(svgURL, element) {
+    const svg = await fetch(svgURL).then(res => res.text());
+    element.innerHTML = svg;
+}
+
 function setupTravellerAudios() {
     document.querySelectorAll(".volume-range-input").forEach(input => {
         // Yes, two listeners are necessary. This is to ensure at least one
@@ -119,12 +155,12 @@ function setupTravellerAudios() {
         input.onchange = event => {
             const travellerName = input.getAttribute("data-traveller-name");
             const percent = input.value;
-            setVolume(travellerName, percent);
+            tryToSetVolume(travellerName, percent);
         }
         input.oninput = event => {
             const travellerName = input.getAttribute("data-traveller-name");
             const percent = input.value;
-            setVolume(travellerName, percent);
+            tryToSetVolume(travellerName, percent);
         }
     })
 }
@@ -144,7 +180,7 @@ function syncSpecificAudio(travellerIndex) {
     hasInteracted[travellerIndex] = true;
 }
 
-function setVolume(travellerName, percent) {
+function tryToSetVolume(travellerName, percent) {
     if(isFirstInteraction === true) {
         isFirstInteraction = false;
         return;
@@ -154,7 +190,12 @@ function setVolume(travellerName, percent) {
         playAllAudios();
     }
 
+    setVolume(travellerName, percent);
+}
+
+function setVolume(travellerName, percent) {
     let travellerIndex = getTravellerIndex(travellerName);
+    console.log(travellerName);
 
     if(hasInteracted[travellerIndex] === false) {
         syncSpecificAudio(travellerIndex);
@@ -180,4 +221,45 @@ function sync() {
     for(const audio of audios) {
         audio.currentTime = audios[0].currentTime;
     }
+    setDeviation();
+}
+
+function setVolumeAll(percent) {
+    // Set the visual inputs
+    for(const info of travellers) {
+        const dataAttrSelector = `[data-traveller-name="${info["name"]}"]`
+        const volumeRangeInput = document.querySelector(`.volume-range-input${dataAttrSelector}`);
+        console.log(volumeRangeInput);
+        volumeRangeInput.value = percent;
+    }
+    // Set the actual volumes
+    for(const info of travellers) {
+        setVolume(info["name"], percent)
+    }
+}
+
+function pauseAll() {
+    for(const audio of audios) {
+        audio.pause();
+    }
+}
+
+function playAll() {
+    // This isn't as straightforward as the others.
+    // There is no visual difference between playing and paused while a traveller is muted.
+    // If *ALL* travellers are muted, then pressing play should set volumes to 100. Just for user convenience.
+
+    let allMuted = true;
+    for(const audio of audios) {
+        if(audio.volume !== 0) {
+            allMuted = false;
+            break;
+        }
+    }
+
+    for(const audio of audios) {
+        audio.play();
+    }
+
+    if(allMuted) setVolumeAll(100);
 }
