@@ -255,7 +255,9 @@ footer a {
 .panel-info__about {
     margin: 2rem 0;
     font-size: 0.75em;
+    font-style: italic;
     text-align: center;
+    text-wrap: balance;
 
     color: #cccccc;
 }
