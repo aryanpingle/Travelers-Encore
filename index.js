@@ -87,9 +87,32 @@ function setupMediaControls() {
 }
 
 function setDeviation() {
-    const currentTimes = audios.map(audio => Math.round(1000 * (audio.currentTime - audios[0].currentTime)) / 1000);
-    const deviationMs = Math.max(...currentTimes) - Math.min(...currentTimes) * 1000;
-    document.querySelector(".deviation-amount").innerHTML = Math.round(deviationMs) + " ms";
+    const deviationAmountElement = document.querySelector(".deviation-amount");
+
+    let minTimestamp = 999;
+    let maxTimestamp = 0;
+    let allMuted = true;
+    for(const audio of audios) {
+        if(audio.volume === 0) continue;
+
+        allMuted = false;
+        minTimestamp = Math.min(minTimestamp, audio.currentTime);
+        maxTimestamp = Math.max(maxTimestamp, audio.currentTime);
+    }
+    
+    let deviationMs = 0;
+    if(!allMuted) {
+        deviationMs = (maxTimestamp - minTimestamp) * 1000;
+    }
+
+    const largeDeviationClass = "deviation-amount--large";
+    if(deviationMs >= 30) {
+        deviationAmountElement.classList.add(largeDeviationClass);
+    } else {
+        deviationAmountElement.classList.remove(largeDeviationClass);
+    }
+
+    deviationAmountElement.innerHTML = Math.round(deviationMs) + " ms";
 }
 
 function startDeviationChecker() {
