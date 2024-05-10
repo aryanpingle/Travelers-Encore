@@ -81,7 +81,7 @@ footer {
 }
 
 footer a {
-    color: hsl(210, 100%, 50%) !important;
+    color: hsl(210, 50%, 75%) !important;
 }
 
 /*
@@ -301,7 +301,8 @@ footer a {
     transition: color 250ms ease;
 }
 
-.control-item:hover :is(.control-icon, .deviation-amount) {
+.control-item:hover .control-icon,
+.deviation-amount {
     --fraction: 1;
     --bloom-color: deepskyblue;
     color: var(--bloom-color);
