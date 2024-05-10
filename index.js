@@ -103,7 +103,6 @@ function startDeviationChecker() {
  */
 function setupTravellerCards() {
     const container = document.querySelector(".traveller-grid");
-    console.log(container);
 
     let containerInnerHTML = "";
     for(const info of travellers) {
@@ -115,6 +114,17 @@ function setupTravellerCards() {
     // Asynchronously get the SVGs and embed them (traveller icons)
     for(const info of travellers) {
         embedTravellerSVG(info);
+    }
+    
+    // Setup card icons to mute/unmute when clicked
+    for(let i = 0; i < travellers.length; ++i) {
+        const info = travellers[i];
+        const dataAttrSelector = `[data-traveller-name="${info["name"]}"]`;
+        const icon = document.querySelector(`.traveller-card__icon${dataAttrSelector}`);
+        icon.onclick = () => {
+            const isMuted = audios[i].volume === 0;
+            setVolume(info["name"], isMuted ? 100 : 0, true)
+        }
     }
 
     setupTravellerAudios();
@@ -166,7 +176,6 @@ function setupTravellerAudios() {
 }
 
 function syncSpecificAudio(travellerIndex) {
-    console.log(`trying to sync traveller idx ${travellerIndex} with others`);
     // Sync this with the one that's been interacted with
     for(let i = 0; i < travellers.length; ++i) {
         if(i == travellerIndex) continue;
@@ -193,9 +202,8 @@ function tryToSetVolume(travellerName, percent) {
     setVolume(travellerName, percent);
 }
 
-function setVolume(travellerName, percent) {
+function setVolume(travellerName, percent, affectInput=false) {
     let travellerIndex = getTravellerIndex(travellerName);
-    console.log(travellerName);
 
     if(hasInteracted[travellerIndex] === false) {
         syncSpecificAudio(travellerIndex);
@@ -206,6 +214,12 @@ function setVolume(travellerName, percent) {
 
     // Add effects to the traveller icon
     document.querySelector(`.traveller-card[data-traveller-name="${travellerName}"]`).style.setProperty("--fraction", percent / 100);
+
+    if(affectInput === true) {
+        const dataAttrSelector = `[data-traveller-name="${travellerName}"]`
+        const volumeRangeInput = document.querySelector(`.volume-range-input${dataAttrSelector}`);
+        volumeRangeInput.value = percent;
+    }
 }
 
 setup();
@@ -217,7 +231,6 @@ function playAllAudios() {
 }
 
 function sync() {
-    console.log("Syncing audios");
     for(const audio of audios) {
         audio.currentTime = audios[0].currentTime;
     }
@@ -229,7 +242,6 @@ function setVolumeAll(percent) {
     for(const info of travellers) {
         const dataAttrSelector = `[data-traveller-name="${info["name"]}"]`
         const volumeRangeInput = document.querySelector(`.volume-range-input${dataAttrSelector}`);
-        console.log(volumeRangeInput);
         volumeRangeInput.value = percent;
     }
     // Set the actual volumes

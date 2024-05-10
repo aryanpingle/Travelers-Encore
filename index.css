@@ -183,6 +183,8 @@ footer a {
     align-items: center;
     overflow: hidden;
 
+    cursor: pointer;
+
     color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
 
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
