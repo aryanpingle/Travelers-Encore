@@ -254,6 +254,8 @@ footer a {
     color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
 
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 641px) {
@@ -404,6 +406,7 @@ footer a {
     border-radius: 1em;
     outline: 2px solid #242424;
 
+    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
