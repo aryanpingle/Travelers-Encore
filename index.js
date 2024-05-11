@@ -73,12 +73,12 @@ function setup() {
     setupTravellerCards();
     setupMediaControls();
     startDeviationChecker();
-    startSupernova();
+    setupSupernova();
 }
 
 const EndTimesAudio = new Audio("./music/End Times (Trimmed).mp3");
 
-function startSupernova() {
+function setupSupernova() {
     // Embed the supernova SVG
     embedSVG("./assets/supernova.svg", document.querySelector(".supernova-overlay"));
 
