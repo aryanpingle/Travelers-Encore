@@ -57,15 +57,17 @@ body {
 
 main {
     flex: 1 0 0;
+
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
 }
 
 @media(min-width: 1025px) {
     main {
-        display: flex;
-        gap: 2em;
-        flex-direction: column;
         height: 100%;
-        flex-direction: row-reverse;
+        gap: 2em;
+        flex-direction: row;
     }
 }
 
@@ -155,8 +157,6 @@ footer a {
 */
 
 .panel-interactive {
-    /* background-color: red; */
-
     display: flex;
     flex-direction: column;
     object-fit: contain;
@@ -181,19 +181,6 @@ footer a {
     margin: auto;
     max-height: 10em;
     max-width: 90%;
-}
-
-/* Narrow: Shown */
-.panel-interactive__logo {
-    /* background-color: cyan; */
-    flex: 0 0 auto;
-    margin-bottom: 2em;
-}
-
-@media(min-width: 1025px) {
-    .panel-interactive__logo {
-        display: none;
-    }
 }
 
 .traveller-grid {
@@ -302,25 +289,32 @@ footer a {
     }
 }
 
-/* Narrow: Hidden */
 .panel-info__logo {
-    display: none;
-}
-
-@media(min-width: 1025px) {
-    .panel-info__logo {
-        display: flex;
-    }
+    display: flex;
 }
 
 .panel-info__about {
-    margin: 2rem 0;
-    font-size: 0.75em;
+    flex: 0 0 auto;
+    margin: 1rem 0;
+    font-size: 0.5em;
     font-style: italic;
     text-align: center;
     text-wrap: balance;
 
     color: #cccccc;
+}
+
+@media (min-width: 721px) {
+    .panel-info__about {
+        font-size: 0.65em;
+    }
+}
+
+@media (min-width: 1025px) {
+    .panel-info__about {
+        margin: 2rem 0;
+        font-size: 0.75em;
+    }
 }
 
 /* Media Control Panel */
@@ -353,12 +347,17 @@ footer a {
     flex: 1 0 0;
     grid-column: span 2;
 
+    padding: 0.5em 0;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    background-color: #fff1;
     color: #cccccc;
+    border-radius: 1em;
+    outline: 2px solid #242424;
 
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
