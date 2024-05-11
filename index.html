@@ -35,13 +35,11 @@
 				</div>
 				<div class="control-panel">
 					<div class="control-panel__inner">
-						<div class="control-item media-button" id="button--play">
-							<div class="control-icon" svg-name="play"></div>
-							<div class="control-title">Play</div>
-						</div>
-						<div class="control-item media-button" id="button--pause">
-							<div class="control-icon" svg-name="pause"></div>
-							<div class="control-title">Pause</div>
+						<div class="control-item media-button paused" id="button--play-pause">
+							<div class="control-icon show-when--paused" svg-name="play"></div>
+							<div class="control-icon show-when--playing" svg-name="pause"></div>
+							<div class="control-title show-when--paused">Play</div>
+							<div class="control-title show-when--playing">Pause</div>
 						</div>
 						<div class="control-item media-button" id="button--volume-0">
 							<div class="control-icon" svg-name="volume-0"></div>

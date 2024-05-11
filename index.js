@@ -52,6 +52,9 @@ function getTravellerIndex(name) {
     return -1;
 }
 
+let isPlaying = false;
+let probeLaunchTime = -1;
+
 let isFirstInteraction = true;
 
 // Checks if the given audio has been interacted at least once before
@@ -93,6 +96,7 @@ function startSupernova() {
 
     // Start the actual supernova after a delay
     setTimeout(startSupernovaExplosion, SupernovaCountdownMs);
+    probeLaunchTime = +new Date();
 }
 
 function startSupernovaExplosion() {
@@ -112,8 +116,10 @@ function setupMediaControls() {
         embedSVG(svgURL, icon_div);
     })
 
-    document.querySelector("#button--play").onclick = playAll;
-    document.querySelector("#button--pause").onclick = pauseAll;
+    document.querySelector("#button--play-pause").onclick = () => {
+        if(isPlaying) pauseAll();
+        else playAll();
+    };
     document.querySelector("#button--volume-0").onclick = () => setVolumeAll(0);
     document.querySelector("#button--volume-100").onclick = () => setVolumeAll(100);
     document.querySelector("#button--sync").onclick = sync;
@@ -146,6 +152,12 @@ function setDeviation() {
     }
 
     deviationAmountElement.innerHTML = Math.round(deviationMs) + " ms";
+
+    // While we're at it, log how much time is left till the supernova
+    const timeSinceMs = (+new Date()) - probeLaunchTime;
+    const minsSince = Math.floor(timeSinceMs / 1000 / 60);
+    const secsSince = Math.floor((timeSinceMs / 1000) - minsSince * 60);
+    console.log(`%c${minsSince} MINUTES, ${secsSince} SECONDS AGO: Long-range probe successfully launched from the %cOrbital Probe Cannon%c.`, "color: cyan;", "color: orange; font-weight: bold;", "");
 }
 
 function startDeviationChecker() {
@@ -310,6 +322,10 @@ function pauseAll() {
     for(const audio of audios) {
         audio.pause();
     }
+    isPlaying = false;
+    const playPauseButton = document.querySelector("#button--play-pause");
+    playPauseButton.classList.add("paused");
+    playPauseButton.classList.remove("playing");
 }
 
 function playAll() {
@@ -330,4 +346,9 @@ function playAll() {
     }
 
     if(allMuted) setVolumeAll(100);
+
+    isPlaying = true;
+    const playPauseButton = document.querySelector("#button--play-pause");
+    playPauseButton.classList.add("playing");
+    playPauseButton.classList.remove("paused");
 }
