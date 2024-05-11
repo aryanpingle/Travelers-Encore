@@ -74,6 +74,29 @@ function setup() {
     setupMediaControls();
     startDeviationChecker();
     setupSupernova();
+    setupKeyboardListener();
+}
+
+function setupKeyboardListener() {
+    document.body.addEventListener("keypress", event => {
+        const key = event.key;
+
+        if(key === "s" || key === "S") {
+            // Synchronize
+            sync();
+        } else if(key === "m") {
+            // Volume 0
+            setVolumeAll(0);
+        } else if(key === "M") {
+            // Volume 100
+            setVolumeAll(100);
+        } else if(key === "p" || key === "P") {
+            // TODO: Remove duplicate code with onclick
+            // Play / pause
+            if(isPlaying) pauseAll();
+            else playAll();
+        }
+    });
 }
 
 const EndTimesAudio = new Audio("./music/End Times (Trimmed).mp3");

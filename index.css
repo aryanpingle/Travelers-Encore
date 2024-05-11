@@ -11,6 +11,11 @@
     box-sizing: border-box;
 }
 
+button {
+    border: none;
+    font: inherit;
+}
+
 body {
     margin: 0;
     background-color: black;
@@ -358,7 +363,6 @@ footer a {
     border-radius: 1em;
     outline: 2px solid #242424;
 
-    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -366,6 +370,10 @@ footer a {
 .control-item.paused .show-when--playing,
 .control-item.playing .show-when--paused {
     display: none;
+}
+
+.control-item:focus {
+    outline-color: white;
 }
 
 .control-icon {
@@ -376,6 +384,7 @@ footer a {
 }
 
 .control-item:hover .control-icon,
+.control-item:focus .control-icon,
 .deviation-text {
     --fraction: 1;
     --bloom-color: deepskyblue;
@@ -395,7 +404,6 @@ footer a {
 
 .control-title {
     font-size: 0.75em;
-    text-wrap: nowrap;
     text-align: center;
 }
 
