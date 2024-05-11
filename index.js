@@ -144,7 +144,7 @@ function setDeviation() {
         deviationMs = (maxTimestamp - minTimestamp) * 1000;
     }
 
-    const largeDeviationClass = "deviation-amount--large";
+    const largeDeviationClass = "large-deviation";
     if(deviationMs >= 30) {
         deviationAmountElement.classList.add(largeDeviationClass);
     } else {

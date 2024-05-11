@@ -383,7 +383,7 @@ footer a {
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
 }
 
-.deviation-text--large {
+.deviation-text.large-deviation {
     --bloom-color: crimson;
     color: lightcoral;
 }
