@@ -228,9 +228,11 @@ function getTravellerCardHTML(info) {
     <div class="traveller-card" data-traveller-name="${name}" style="--bloom-color: ${info["bloom-color"]}; --base-color: ${info["base-color"]};">
         <div class="traveller-card__inner">
             <div class="traveller-card__icon" data-traveller-name="${name}"></div>
-            <div class="traveller-card__name" data-traveller-name="${name}">${name}</div>
-            <div class="traveller-card__audio">
-                <input type="range" data-traveller-name="${name}" class="volume-range-input" min="0" max="100" value="0">
+            <div class="traveller-card__meta">
+                <div class="traveller-card__name" data-traveller-name="${name}">${name}</div>
+                <div class="traveller-card__audio">
+                    <input type="range" data-traveller-name="${name}" class="volume-range-input" min="0" max="100" value="0">
+                </div>
             </div>
         </div>
     </div>

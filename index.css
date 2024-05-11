@@ -167,12 +167,12 @@ footer a {
     object-fit: contain;
 
     height: 100%;
-    overflow: auto;
 }
 
 @media(min-width: 1025px) {
     .panel-interactive {
         flex: 6 0 0;
+        overflow: auto;
     }
 }
 
@@ -192,16 +192,24 @@ footer a {
     max-height: 100%;
     flex: 1 0 0;
 
-    display: grid;
     gap: 0.75em;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
 
-    justify-items: center;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
-/* The traveller grid can contain EITHER a .traveller-card or the .media-control-panel */
+@media (min-width: 641px) {
+    .traveller-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+    
+        justify-items: center;
+        align-items: center;
+    }
+}
+
+/* Traveller Cards */
 
 .traveller-card {
     --fraction: 0;
@@ -209,7 +217,6 @@ footer a {
     height: 100%;
     width: 100%;
     display: block;
-    overflow: hidden;
 }
 
 .traveller-card[data-traveller-name="Prisoner"] {
@@ -221,20 +228,26 @@ footer a {
     height: 100%;
     width: 100%;
 
-    flex-direction: column;
+    flex-direction: row;
+    gap: 1em;
     justify-content: center;
     align-items: center;
 }
 
+@media (min-width: 641px) {
+    .traveller-card__inner {
+        gap: 0;
+        flex-direction: column;
+    }
+}
+
 .traveller-card__icon {
-    width: 100%;
-    flex: 1 0 0;
     min-height: 2em;
+    flex: 0 0 auto;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 
     cursor: pointer;
 
@@ -243,23 +256,51 @@ footer a {
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
 }
 
+@media (min-width: 641px) {
+    .traveller-card__icon {
+        width: 100%;
+        flex: 1 0 0;
+        overflow: hidden;
+    }
+}
+
 .traveller-card__icon > svg {
-    height: 75%;
-    width: 75%;
+    width: 3em;
+    height: 3em;
+}
+
+@media (min-width: 641px) {
+    .traveller-card__icon > svg {
+        height: 75%;
+        width: 75%;
+    }
+}
+
+.traveller-card__meta {
+    flex: 1 0 0;
+}
+
+@media (min-width: 641px) {
+    .traveller-card__meta {
+        flex: 0 0 auto;
+        width: 100%;
+    }
 }
 
 .traveller-card__name {
-    flex: 0 0 auto;
     width: 100%;
-    margin: 1em 0;
 
     font-size: 0.75em;
+}
 
-    text-align: center;
+@media (min-width: 641px) {
+    .traveller-card__name {
+        margin: 1em 0;
+        text-align: center;
+    }
 }
 
 .traveller-card__audio {
-    flex: 0 0 auto;
     width: 100%;
 
     display: flex;
