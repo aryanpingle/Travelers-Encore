@@ -340,12 +340,11 @@ footer a {
 
     display: grid;
     gap: 2em 1em;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .control-item {
     flex: 1 0 0;
-    grid-column: span 2;
 
     padding: 0.5em 0;
 
@@ -377,14 +376,14 @@ footer a {
 }
 
 .control-item:hover .control-icon,
-.deviation-amount {
+.deviation-text {
     --fraction: 1;
     --bloom-color: deepskyblue;
     color: var(--bloom-color);
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
 }
 
-.deviation-amount--large {
+.deviation-text--large {
     --bloom-color: crimson;
     color: lightcoral;
 }
@@ -401,12 +400,10 @@ footer a {
 }
 
 .control-item--deviation {
-    grid-column: 2 / span 2;
-    cursor: default;
+    grid-column: span 3;
 }
 
-.deviation-amount {
-    height: 2em;
-    display: grid;
-    place-items: center;
+.deviation-text {
+    text-align: center;
+    padding: 0.25em 0.5em;
 }

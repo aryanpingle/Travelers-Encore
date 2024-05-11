@@ -126,7 +126,7 @@ function setupMediaControls() {
 }
 
 function setDeviation() {
-    const deviationAmountElement = document.querySelector(".deviation-amount");
+    const deviationAmountElement = document.querySelector(".deviation-text");
 
     let minTimestamp = 999;
     let maxTimestamp = 0;
@@ -151,7 +151,7 @@ function setDeviation() {
         deviationAmountElement.classList.remove(largeDeviationClass);
     }
 
-    deviationAmountElement.innerHTML = Math.round(deviationMs) + " ms";
+    deviationAmountElement.innerHTML = `Travelers are out of sync by ${Math.round(deviationMs)} ms`;
 
     // While we're at it, log how much time is left till the supernova
     const timeSinceMs = (+new Date()) - probeLaunchTime;
