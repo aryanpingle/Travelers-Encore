@@ -85,10 +85,11 @@ footer {
     color: var(--orange);
     text-align: center;
     font-size: 0.5em;
+    text-wrap: balance;
 }
 
 footer a {
-    color: hsl(210, 50%, 75%) !important;
+    color: hsl(210, 100%, 75%) !important;
 }
 
 /*
