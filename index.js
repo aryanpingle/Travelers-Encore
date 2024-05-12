@@ -75,6 +75,49 @@ function setup() {
     startDeviationChecker();
     setupSupernova();
     setupKeyboardListener();
+    setupMediaSession();
+}
+
+function setupMediaSession() {
+    if(!("mediaSession" in navigator)) return;
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+        title: "Your Traveler's Encore",
+        artist: "Aryan Pingle",
+        album: "The Outer Wilds - Echoes of The Eye",
+        artwork: [
+            { src: './assets/images/wallpaper.jpg',   sizes: '1000x562',   type: 'image/jpg' },
+        ]
+    });
+
+    const actionHandlers = [
+        ['play', playAll],
+        ['pause', pauseAll],
+        ['previoustrack', () => {
+            for(const audio of audios) {
+                audio.currentTime = 0;
+            }
+        }],
+        ['nexttrack', () => {
+            for(const audio of audios) {
+                audio.currentTime = 0;
+            }
+        }],
+        ['stop', () => {
+            pauseAll();
+            for(const audio of audios) {
+                audio.currentTime = 0;
+            }
+        }],
+    ];
+
+    for (const [action, handler] of actionHandlers) {
+        try {
+            navigator.mediaSession.setActionHandler(action, handler);
+        } catch (error) {
+            console.log(`The media session action "${action}" is not supported yet.`);
+        }
+    }
 }
 
 function setupKeyboardListener() {
