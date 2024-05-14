@@ -1,0 +1,46 @@
+{
+    "short_name": "Traveler's Encore",
+    "name": "Traveler's Encore",
+	"description": "A web app that lets you create your own Traveler's Encore.",
+    "start_url": "/",
+    "background_color": "#000000",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "icons": [
+		{
+			"src": "./assets/favicons/favicon-512-filled.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "any"
+		},
+		{
+			"src": "./assets/favicons/favicon-512-filled.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		}
+	],
+	"screenshots": [
+		{
+			"src": "./assets/screenshots/mobile-1.jpg",
+			"type": "image/jpg",
+			"sizes": "541x1201",
+			"form_factor": "narrow",
+			"label": "Mobile Screenshot 1"
+		},
+		{
+			"src": "./assets/screenshots/mobile-2.jpg",
+			"type": "image/jpg",
+			"sizes": "541x1201",
+			"form_factor": "narrow",
+			"label": "Mobile Screenshot 2"
+		},
+		{
+			"src": "./assets/screenshots/desktop-1.jpg",
+			"type": "image/jpg",
+			"sizes": "1280x720",
+			"form_factor": "wide",
+			"label": "Desktop Screenshot 2"
+		}
+	]
+}

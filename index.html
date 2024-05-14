@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traveler's Encore</title>
 
+    <!-- PWA -->
+	<script>
+		if("serviceWorker" in navigator) {
+			navigator.serviceWorker.register("./service-worker.js");
+		}
+	</script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+
     <!-- Icons -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="shortcut icon" sizes="140x140" href="favicon.png" type="image/png">
-	<link rel="icon" sizes="140x140" href="favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="favicon-filled.png">
+	<link rel="shortcut icon" sizes="192x192" href="./assets/favicons/favicon-192.png" type="image/png">
+	<link rel="icon" sizes="192x192" href="./assets/favicons/favicon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="./assets/favicons/favicon-192-filled.png">
 
     <!-- Open Graph Tags -->
     <meta name="author" content="Aryan Pingle" />
