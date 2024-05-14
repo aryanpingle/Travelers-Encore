@@ -155,11 +155,30 @@ self.addEventListener("install", event => {
     self.skipWaiting();
 });
 
-self.addEventListener("activate", async event => {
+self.addEventListener("activate", event => {
     debugLog("Service Worker Activated");
 
     // Make service worker take control ASAP
     event.waitUntil((async () => {
+        // Precache all audios
+        const audioNames = [
+            "Riebeck",
+            "Feldspar",
+            "Gabbro",
+            "Chert",
+            "Esker",
+            "Solanum",
+            "Prisoner",
+            "End Times (Trimmed)",
+        ];
+        const audioURLs = audioNames.map(name => `./music/${name}.mp3`);
+        // Initialize an empty document and resource cache
+        if(DOC_CACHE === null || RES_CACHE === null) {
+            DOC_CACHE = await caches.open(DOC_CACHE_NAME);
+            RES_CACHE = await caches.open(RES_CACHE_NAME);
+        }
+        RES_CACHE.addAll(audioURLs);
+    
         await clients.claim();
     })())
 });
