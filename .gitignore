@@ -3,3 +3,5 @@ notes/
 original-music/
 tools/
 /screenshots/
+node_modules/
+build/

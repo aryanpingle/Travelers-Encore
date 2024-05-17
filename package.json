@@ -1,0 +1,20 @@
+{
+  "name": "travelers-encore",
+  "version": "1.0.0",
+  "description": "Come, sit with me, my fellow traveler. Let's sit together and watch the stars die.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx rollup -c -w --bundleConfigAsCjs",
+    "build": "npx rollup -c --bundleConfigAsCjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.17.2",
+    "rollup-plugin-serve": "^1.1.1"
+  }
+}
