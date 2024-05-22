@@ -4,6 +4,7 @@ import fs from 'fs';
 
 // Import custom plugins
 import pluginRenderEJS from "./plugins/plugin-render-ejs";
+import pluginAddJS from "./plugins/plugin-add-js";
 
 const IS_PRODUCTION = !process.env.ROLLUP_WATCH;
 
@@ -19,29 +20,29 @@ if(fs.existsSync("build/")) {
 // Copy root level stuff directly
 fs.cpSync("src/root", "build", { recursive: true });
 
-const entryFiles = ["src/index.js", "src/service-worker.js"];
-
 const EJS_GLOBAL_DATA = {
     IS_PRODUCTION: IS_PRODUCTION,
 };
 
-export default entryFiles.map((entryFile, index) => ({
-    input: entryFile,
+export default {
+    input: "src/index.js",
     output: {
         dir: 'build',
         format: 'cjs'
     },
     plugins: [
+        // Add service worker
+        pluginAddJS(["src/service-worker.js"]),
         // Generate index.html
-        index === 0 && pluginRenderEJS({ ...EJS_GLOBAL_DATA }, [
+        pluginRenderEJS({ ...EJS_GLOBAL_DATA }, [
             "src/index.ejs",
         ]),
         // Minify JS in production
         IS_PRODUCTION && terser({}),
         // Locally serve content in development
-        index === 0 && !IS_PRODUCTION && serve({
+        !IS_PRODUCTION && serve({
             port: 5500,
             contentBase: 'build',
         }),
     ]
-}));
+};
