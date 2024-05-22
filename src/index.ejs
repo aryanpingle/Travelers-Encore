@@ -40,10 +40,6 @@
 	<meta name="twitter:image:alt" property="twitter:image:alt" content="Social media banner for the Traveler's Encore website by Aryan Pingle">
 
     <link rel="stylesheet" href="index.css">
-
-	<% if (!IS_PRODUCTION) { %>
-		<script async defer src="index.js"></script>
-	<% } %>
 </head>
 <body>
 	<div id="page">
@@ -97,8 +93,6 @@
 	</div>
 
 	<!-- Inline JS -->
-	<% if (IS_PRODUCTION) { %>
-		<%- "<script>" + getBundledCode("index.js") + "</script>" %>
-	<% } %>
+	<%- "<script>" + getBundledCode("index.js") + "</script>" %>
 </body>
 </html>
