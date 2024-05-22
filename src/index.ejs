@@ -41,7 +41,9 @@
 
     <link rel="stylesheet" href="index.css">
 
-    <script async defer src="index.js"></script>
+	<% if (!IS_PRODUCTION) { %>
+		<script async defer src="index.js"></script>
+	<% } %>
 </head>
 <body>
 	<div id="page">
@@ -93,5 +95,10 @@
 			I love this game so goddamn much.
 		</footer>
 	</div>
+
+	<!-- Inline JS -->
+	<% if (IS_PRODUCTION) { %>
+		<%- "<script>" + getBundledCode("index.js") + "</script>" %>
+	<% } %>
 </body>
 </html>

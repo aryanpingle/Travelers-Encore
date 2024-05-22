@@ -22,6 +22,7 @@ fs.cpSync("src/root", "build", { recursive: true });
 const entryFiles = ["src/index.js", "src/service-worker.js"];
 
 const EJS_GLOBAL_DATA = {
+    IS_PRODUCTION: IS_PRODUCTION,
 };
 
 export default entryFiles.map((entryFile, index) => ({
