@@ -40,8 +40,6 @@
 	<meta name="twitter:image:alt" property="twitter:image:alt" content="Social media banner for the Traveler's Encore website by Aryan Pingle">
 
     <link rel="stylesheet" href="index.css">
-
-    <script async defer src="index.js"></script>
 </head>
 <body>
 	<div id="page">
@@ -55,23 +53,30 @@
 				</div>
 				<div class="control-panel">
 					<div class="control-panel__inner">
-						<button class="control-item media-button" id="button--volume-0" tabindex="0">
+						<button class="control-item media-button" id="button--volume-0">
 							<div class="control-icon" svg-name="volume-0"></div>
 							<div class="control-title">Volume 0</div>
 						</button>
-						<button class="control-item media-button paused" id="button--play-pause" tabindex="0">
+						<button class="control-item media-button paused" id="button--play-pause">
 							<div class="control-icon show-when--paused" svg-name="play"></div>
 							<div class="control-icon show-when--playing" svg-name="pause"></div>
 							<div class="control-title show-when--paused">Play</div>
 							<div class="control-title show-when--playing">Pause</div>
 						</button>
-						<button class="control-item media-button" id="button--volume-100" tabindex="0">
+						<button class="control-item media-button" id="button--volume-100">
 							<div class="control-icon" svg-name="volume-100"></div>
 							<div class="control-title">Volume 100</div>
 						</button>
-						<button class="control-item control-item--deviation" id="button--sync" tabindex="0">
+						<button class="control-item control-item--deviation" id="button--sync">
 							<div class="deviation-text">Travelers are out of sync by 0 ms</div>
 							<div class="control-title">Press this button to synchronize them</div>
+						</button>
+						<button class="control-item control-item--speed" id="button--speed" tabindex="-1">
+							<div class="playback-bar">
+								<div class="playback-speed">1.00x</div>
+								<input type="range" class="playback-speed-input" min="0.00" max="2.00" value="1.00" step="0.01">
+							</div>
+							<div class="control-title">Playback Speed</div>
 						</button>
 					</div>
 				</div>
@@ -93,5 +98,8 @@
 			I love this game so goddamn much.
 		</footer>
 	</div>
+
+	<!-- Inline JS -->
+	<%- "<script>" + getBundledCode("index.js") + "</script>" %>
 </body>
 </html>
