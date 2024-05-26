@@ -141,6 +141,17 @@ function setupMediaControls() {
     document.querySelector("#button--volume-0").onclick = () => setVolumeAll(0);
     document.querySelector("#button--volume-100").onclick = () => setVolumeAll(100);
     document.querySelector("#button--sync").onclick = sync;
+    document.querySelector(".playback-speed-input").oninput = function() {
+        setGlobalPlaybackSpeed(parseFloat(this.value));
+    }
+}
+
+function setGlobalPlaybackSpeed(speed) {
+    for(const audio of audios) {
+        audio.playbackRate = speed;
+    }
+    // Update UI
+    document.querySelector(".playback-speed").innerHTML = speed.toFixed(2) + "x";
 }
 
 function setDeviation() {
@@ -231,7 +242,7 @@ function getTravellerCardHTML(info) {
             </div>
         </div>
     </div>
-    `.trim()
+    `.trim();
 }
 
 async function embedTravellerSVG(info) {

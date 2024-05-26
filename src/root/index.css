@@ -429,8 +429,7 @@ footer a {
 }
 
 .control-item:hover .control-icon,
-.control-item:focus .control-icon,
-.deviation-text {
+.control-item:focus .control-icon {
     --fraction: 1;
     --bloom-color: deepskyblue;
     color: var(--bloom-color);
@@ -452,11 +451,43 @@ footer a {
     text-align: center;
 }
 
+/* Special case: Control item for audio deviation */
+
 .control-item--deviation {
     grid-column: span 3;
 }
 
 .deviation-text {
+    --fraction: 1;
+    --bloom-color: deepskyblue;
+    color: var(--bloom-color);
+    filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
+    
     text-align: center;
     padding: 0.25em 0.5em;
+}
+
+/* Special case: Control item for playback speed */
+
+.control-item--speed {
+    grid-column: span 3;
+}
+
+.control-item--speed .playback-bar {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.5em;
+    padding: 0.25em 0.5em;
+    
+    color: deepskyblue;
+}
+
+.playback-speed-input {
+    accent-color: deepskyblue;
+    width: 100%;
+    max-width: 30ch;
 }

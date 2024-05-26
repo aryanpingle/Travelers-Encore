@@ -1,6 +1,7 @@
 import serve from "rollup-plugin-serve";
 import terser from '@rollup/plugin-terser';
 import fs from 'fs';
+import copy from "rollup-plugin-copy";
 
 // Import custom plugins
 import pluginRenderEJS from "./plugins/plugin-render-ejs";
@@ -15,10 +16,11 @@ if(fs.existsSync("build/")) {
     })
 } else {
     fs.mkdirSync("build/");
+    fs.mkdirSync("build/assets/");
 }
 
-// Copy root level stuff directly
-fs.cpSync("src/root", "build", { recursive: true });
+// Copy static assets directly
+fs.cpSync("src/assets/", "build/assets/", { recursive: true });
 
 const EJS_GLOBAL_DATA = {
     IS_PRODUCTION: IS_PRODUCTION,
@@ -31,6 +33,17 @@ export default {
         format: 'cjs'
     },
     plugins: [
+        // Watch some root directory files
+        {
+            buildStart: function() {
+                ["src/root/index.css"].forEach(filename => {
+                    this.addWatchFile(filename);
+                });
+            }
+        },
+        copy({
+            targets: [{ src: "src/root/*", dest: "build/" }]
+        }),
         // Add service worker
         pluginAddJS(["src/service-worker.js"]),
         // Generate index.html
