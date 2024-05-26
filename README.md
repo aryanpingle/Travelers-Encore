@@ -6,7 +6,7 @@
 
 The one way we can communicate freely however, is via music. [This website is my love letter to the Outer Wilds community and developers for the unforgettable experience I've had](https://travelers-encore.netlify.app).
 
-![Screenshot of the website](./assets/social-media/Banner.png)
+![Screenshot of the website](./src/assets/social-media/Banner.png)
 
 This was my first Indie game, and boy, did I fall in love with it. I started the game in January 2024, in the final semester of college. Nearly 8 hours a day, for two weeks, and I missed out on a bunch of evaluatives. And you know what? I'd do it all again in a heartbeat. I wish I could.
 
