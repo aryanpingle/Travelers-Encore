@@ -372,7 +372,7 @@ footer a {
     width: 100%;
     display: block;
     overflow: hidden;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
 
     font-size: 0.5em;
 }
@@ -380,6 +380,7 @@ footer a {
 @media (min-width: 1025px) {
     .control-panel {
         font-size: 0.75em;
+        padding: 0.5rem;
     }
 }
 
