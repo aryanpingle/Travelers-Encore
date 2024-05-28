@@ -129,10 +129,10 @@ function startSupernovaExplosion() {
 
 function setupMediaControls() {
     // Asynchronously get the SVGs and embed them (media control panel)
-    document.querySelectorAll(".control-icon").forEach(icon_div => {
-        const svgURL = `assets/icons/${icon_div.getAttribute("svg-name")}.svg`;
-        embedSVG(svgURL, icon_div);
-    })
+    // document.querySelectorAll(".control-icon").forEach(icon_div => {
+    //     const svgURL = `assets/icons/${icon_div.getAttribute("svg-name")}.svg`;
+    //     embedSVG(svgURL, icon_div);
+    // })
 
     document.querySelector("#button--play-pause").onclick = () => {
         if(isPlaying) pauseAll();
