@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/*
+Font URLs taken from 
+https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap
+*/
+@font-face {
+    font-family: 'Space Mono';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/spacemono/v13/i7dNIFZifjKcF5UAWdDRYERMR3K_.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Space Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/spacemono/v13/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
     font-family: "Space Mono", monospace;
@@ -20,7 +39,7 @@ body {
     margin: 0;
     background-color: black;
     color: #efefef;
-
+    
     height: 100vh;
     height: -webkit-fill-available;
 }
@@ -42,13 +61,13 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-
+    
     background-image: url(./assets/images/wallpaper.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     filter: brightness(0.12);
-
+    
     z-index: -1;
 }
 
@@ -62,7 +81,7 @@ body {
 
 main {
     flex: 1 0 0;
-
+    
     display: flex;
     gap: 1em;
     flex-direction: column;
@@ -104,21 +123,21 @@ footer a {
     left: 0;
     width: 100%;
     height: 100%;
-
+    
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     background-color: black;
     opacity: 0;
-
+    
     user-select: none;
     pointer-events: none;
-
+    
     z-index: 999;
-
+    
     overflow: hidden;
-
+    
     transition: opacity 1s ease;
 }
 
@@ -129,7 +148,7 @@ footer a {
 .supernova-overlay > svg {
     min-width: 1vw;
     min-height: 1vw;
-
+    
     transform: scale(0);
     transition: transform 1s linear;
     transition-delay: 1s;
@@ -166,7 +185,7 @@ footer a {
     display: flex;
     flex-direction: column;
     object-fit: contain;
-
+    
     height: 100%;
 }
 
@@ -192,9 +211,9 @@ footer a {
 .traveller-grid {
     max-height: 100%;
     flex: 1 0 0;
-
+    
     gap: 0.75em;
-
+    
     display: flex;
     flex-direction: column;
 }
@@ -204,7 +223,7 @@ footer a {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
-    
+        
         justify-items: center;
         align-items: center;
     }
@@ -214,7 +233,7 @@ footer a {
 
 .traveller-card {
     --fraction: 0;
-
+    
     height: 100%;
     width: 100%;
     display: block;
@@ -228,7 +247,7 @@ footer a {
     display: flex;
     height: 100%;
     width: 100%;
-
+    
     flex-direction: row;
     gap: 1em;
     justify-content: center;
@@ -245,17 +264,17 @@ footer a {
 .traveller-card__icon {
     min-height: 2em;
     flex: 0 0 auto;
-
+    
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     cursor: pointer;
-
+    
     color: color-mix(in srgb, var(--base-color) calc(100% * var(--fraction)), white);
-
+    
     filter: drop-shadow(0 0 calc(10px * var(--fraction)) var(--bloom-color));
-
+    
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -292,7 +311,7 @@ footer a {
 
 .traveller-card__name {
     width: 100%;
-
+    
     font-size: 0.75em;
 }
 
@@ -305,7 +324,7 @@ footer a {
 
 .traveller-card__audio {
     width: 100%;
-
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -326,7 +345,7 @@ footer a {
 
 .panel-info {
     flex: 0 0 auto;
-
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -349,7 +368,7 @@ footer a {
     font-style: italic;
     text-align: center;
     text-wrap: balance;
-
+    
     color: #cccccc;
 }
 
@@ -373,7 +392,7 @@ footer a {
     display: block;
     overflow: hidden;
     padding: 0.5rem 0;
-
+    
     font-size: 0.5em;
 }
 
@@ -387,7 +406,7 @@ footer a {
 .control-panel__inner {
     height: 100%;
     width: 100%;
-
+    
     display: grid;
     gap: 2em 1em;
     grid-template-columns: repeat(3, 1fr);
@@ -395,19 +414,19 @@ footer a {
 
 .control-item {
     flex: 1 0 0;
-
+    
     padding: 0.5em 0;
-
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    
     background-color: #fff1;
     color: #cccccc;
     border-radius: 1em;
     outline: 2px solid #242424;
-
+    
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
@@ -425,7 +444,7 @@ footer a {
 .control-icon {
     width: 2em;
     height: 2em;
-
+    
     transition: color 250ms ease;
 }
 
@@ -476,11 +495,11 @@ footer a {
 
 .control-item--speed .playback-bar {
     width: 100%;
-
+    
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     gap: 0.5em;
     padding: 0.25em 0.5em;
     
