@@ -24,6 +24,7 @@ fs.cpSync("src/assets/", "build/assets/", { recursive: true });
 
 const EJS_GLOBAL_DATA = {
     IS_PRODUCTION: IS_PRODUCTION,
+    IS_DEV: !IS_PRODUCTION,
 };
 
 export default {
