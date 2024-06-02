@@ -1,22 +1,3 @@
-/*
-Font URLs taken from 
-https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;1,400&display=swap&text=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-,%2E%2F
-*/
-@font-face {
-    font-family: 'Space Mono';
-    font-style: italic;
-    font-weight: 400;
-    font-display: swap;
-    src: url(./assets/fonts/space-mono-400-italic.woff2) format('woff2');
-}
-@font-face {
-    font-family: 'Space Mono';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(./assets/fonts/space-mono-400-normal.woff2) format('woff2');
-}
-
 :root {
     font-family: "Space Mono", monospace;
     font-size: 25px;
@@ -388,7 +369,6 @@ footer a {
 .control-panel {
     width: 100%;
     display: block;
-    overflow: hidden;
     padding: 0.5rem 0;
     
     font-size: 0.5em;
