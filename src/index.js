@@ -5,21 +5,28 @@ import { embedSVG } from "./util";
 
 let isPlaying = false;
 
-let isFirstInteraction = true;
-
 // Checks if the given audio has been interacted at least once before
 // Useful for syncing this audio with the first one that is playing
 const hasInteracted = new Array(travellers.length).fill(false);
 
+// Create audios and set their properties
 const audios = travellers.map(info => {
     return new Audio(`./music/${info["name"]}.mp3`);
-})
+});
+audios.forEach(audio => {
+    audio.loop = true;
+    audio.volume = 0;
+});
+
+// AudioContext is needed for iOS devices
+const AudioContext = window.AudioContext || window.WebkitAudioContext;
+const audioCtx = new AudioContext();
+audios.forEach(audio => {
+    const track = audioCtx.createMediaElementSource(audio)
+    track.connect(audioCtx.destination);
+});
 
 function setup() {
-    audios.forEach(audio => {
-        audio.loop = true;
-        audio.volume = 0;
-    })
     setupTravellerCards();
     setupMediaControls();
     startDeviationChecker();
@@ -28,8 +35,13 @@ function setup() {
     setupMediaSession();
 }
 
+function tryInitAudioContext() {
+    if(audioCtx.state === "suspended")
+        audioCtx.resume();
+}
+
 /**
- * Use the `mediaSession` API to create a rich rich "Now Playing" widget.
+ * Use the `mediaSession` API to create a rich "Now Playing" widget.
  */
 function setupMediaSession() {
     if(!("mediaSession" in navigator)) return;
@@ -188,7 +200,7 @@ function setupTravellerCards() {
         const icon = document.querySelector(`.traveller-card__icon${dataAttrSelector}`);
         icon.onclick = () => {
             const isMuted = audios[i].volume === 0;
-            setVolume(info["name"], isMuted ? 100 : 0, true)
+            setVolumeAndAffectInput(info["name"], isMuted ? 100 : 0);
         }
     }
 
@@ -224,15 +236,11 @@ function setupTravellerAudios() {
     document.querySelectorAll(".volume-range-input").forEach(input => {
         // Yes, two listeners are necessary. This is to ensure at least one
         // is run after the first user interaction.
-        input.onchange = event => {
-            const travellerName = input.getAttribute("data-traveller-name");
-            const percent = input.value;
-            tryToSetVolume(travellerName, percent);
-        }
         input.oninput = event => {
+            tryInitAudioContext();
             const travellerName = input.getAttribute("data-traveller-name");
             const percent = input.value;
-            tryToSetVolume(travellerName, percent);
+            setVolume(travellerName, percent);
         }
     })
 }
@@ -251,20 +259,17 @@ function syncSpecificAudio(travellerIndex) {
     hasInteracted[travellerIndex] = true;
 }
 
-function tryToSetVolume(travellerName, percent) {
-    if(isFirstInteraction === true) {
-        isFirstInteraction = false;
-        return;
-    }
-    else if(isFirstInteraction === false) {
-        isFirstInteraction = null;
-        playAllAudios();
-    }
-
+function setVolumeAndAffectInput(travellerName, percent) {
     setVolume(travellerName, percent);
+
+    const dataAttrSelector = `[data-traveller-name="${travellerName}"]`;
+    const volumeRangeInput = document.querySelector(`.volume-range-input${dataAttrSelector}`);
+    volumeRangeInput.value = percent;
 }
 
-function setVolume(travellerName, percent, affectInput=false) {
+function setVolume(travellerName, percent) {
+    tryInitAudioContext();
+
     let travellerIndex = getTravellerIndex(travellerName);
 
     if(hasInteracted[travellerIndex] === false) {
@@ -276,21 +281,9 @@ function setVolume(travellerName, percent, affectInput=false) {
 
     // Add effects to the traveller icon
     document.querySelector(`.traveller-card[data-traveller-name="${travellerName}"]`).style.setProperty("--fraction", percent / 100);
-
-    if(affectInput === true) {
-        const dataAttrSelector = `[data-traveller-name="${travellerName}"]`
-        const volumeRangeInput = document.querySelector(`.volume-range-input${dataAttrSelector}`);
-        volumeRangeInput.value = percent;
-    }
 }
 
 setup();
-
-function playAllAudios() {
-    for(const audio of audios) {
-        audio.play();
-    }
-}
 
 function sync() {
     for(const audio of audios) {
@@ -300,6 +293,8 @@ function sync() {
 }
 
 function setVolumeAll(percent) {
+    tryInitAudioContext();
+
     // Set the visual inputs
     for(const info of travellers) {
         const dataAttrSelector = `[data-traveller-name="${info["name"]}"]`
@@ -313,6 +308,8 @@ function setVolumeAll(percent) {
 }
 
 function pauseAll() {
+    tryInitAudioContext();
+
     for(const audio of audios) {
         audio.pause();
     }
@@ -323,6 +320,8 @@ function pauseAll() {
 }
 
 function playAll() {
+    tryInitAudioContext();
+
     // This isn't as straightforward as the others.
     // There is no visual difference between playing and paused while a traveller is muted.
     // If *ALL* travellers are muted, then pressing play should set volumes to 100. Just for user convenience.
