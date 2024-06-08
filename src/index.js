@@ -1,7 +1,9 @@
 import { travellers, getTravellerIndex } from "./travelers";
+import { updateProbeLaunchTime } from "./probe-launch";
+import { setupSupernova } from "./supernova";
+import { embedSVG } from "./util";
 
 let isPlaying = false;
-let probeLaunchTime = -1;
 
 let isFirstInteraction = true;
 
@@ -26,6 +28,9 @@ function setup() {
     setupMediaSession();
 }
 
+/**
+ * Use the `mediaSession` API to create a rich rich "Now Playing" widget.
+ */
 function setupMediaSession() {
     if(!("mediaSession" in navigator)) return;
 
@@ -90,43 +95,6 @@ function setupKeyboardListener() {
     });
 }
 
-///////////////////////////////////
-//        Supernova logic        //
-///////////////////////////////////
-
-const EndTimesAudio = new Audio("./music/End Times (Trimmed).mp3");
-
-function setupSupernova() {
-    // Embed the supernova SVG
-    embedSVG("./assets/supernova.svg", document.querySelector(".supernova-overlay"));
-
-    const SupernovaCountdownMs = 22 * 60 * 1000; // 22 minutes
-    // const SupernovaCountdownMs = 500; // (debug) Instant
-    // const SupernovaCountdownMs = (60 + 30) * 1000; // (debug) Instant End Times
-
-    const EndTimesDurationMs = (60 + 27) * 1000;
-    
-    // Play "End Times" to signal the supernova
-    setTimeout(() => {
-        EndTimesAudio.volume = 1;
-        EndTimesAudio.play();
-    }, SupernovaCountdownMs - EndTimesDurationMs)
-
-    // Start the actual supernova after a delay
-    setTimeout(startSupernovaExplosion, SupernovaCountdownMs);
-    probeLaunchTime = +(new Date());
-}
-
-function startSupernovaExplosion() {
-    // Let the CSS know
-    document.documentElement.classList.add("supernova-started");
-
-    // Fade to black after animation is complete (3s)
-    setTimeout(() => {
-        document.documentElement.classList.add("supernova-completed")
-    }, 3_000);
-}
-
 function setupMediaControls() {
     // Asynchronously get the SVGs and embed them (media control panel)
     // document.querySelectorAll(".control-icon").forEach(icon_div => {
@@ -152,6 +120,14 @@ function setGlobalPlaybackSpeed(speed) {
     }
     // Update UI
     document.querySelector(".playback-speed").innerHTML = speed.toFixed(2) + "x";
+}
+
+///////////////////////////////////
+//   Check for audio deviation   //
+///////////////////////////////////
+
+function startDeviationChecker() {
+    setInterval(setDeviation, 2000);
 }
 
 function setDeviation() {
@@ -182,15 +158,7 @@ function setDeviation() {
 
     deviationAmountElement.innerHTML = `Travelers are out of sync by ${Math.round(deviationMs)} ms`;
 
-    // While we're at it, log how much time is left till the supernova
-    const timeSinceMs = (+new Date()) - probeLaunchTime;
-    const minsSince = Math.floor(timeSinceMs / 1000 / 60);
-    const secsSince = Math.floor((timeSinceMs / 1000) - minsSince * 60);
-    console.info(`%c${minsSince} MINUTES, ${secsSince} SECONDS AGO: Long-range probe successfully launched from the %cOrbital Probe Cannon%c.`, "color: cyan;", "color: orange; font-weight: bold;", "");
-}
-
-function startDeviationChecker() {
-    setInterval(setDeviation, 2000);
+    updateProbeLaunchTime()
 }
 
 /**
@@ -246,15 +214,10 @@ function getTravellerCardHTML(info) {
 }
 
 async function embedTravellerSVG(info) {
-    const url = `assets/planet-svgs/${info["location-slug"]}.svg`;
-    const svg = await fetch(url).then(res => res.text());
+    const svgURL = `assets/planet-svgs/${info["location-slug"]}.svg`;
     const name = info["name"];
-    document.querySelector(`.traveller-card__icon[data-traveller-name="${name}"]`).innerHTML = svg;
-}
-
-async function embedSVG(svgURL, element) {
-    const svg = await fetch(svgURL).then(res => res.text());
-    element.innerHTML = svg;
+    const travelerElement = document.querySelector(`.traveller-card__icon[data-traveller-name="${name}"]`);
+    embedSVG(svgURL, travelerElement);
 }
 
 function setupTravellerAudios() {
