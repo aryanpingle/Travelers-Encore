@@ -5,6 +5,7 @@ import { embedSVG } from "./util";
 
 let isPlaying = false;
 
+// TODO: Check if this is actually useful
 // Checks if the given audio has been interacted at least once before
 // Useful for syncing this audio with the first one that is playing
 const hasInteracted = new Array(travellers.length).fill(false);
@@ -13,18 +14,21 @@ const hasInteracted = new Array(travellers.length).fill(false);
 const audios = travellers.map(info => {
     return new Audio(`./music/${info["name"]}.mp3`);
 });
-audios.forEach(audio => {
-    audio.loop = true;
-    audio.volume = 0;
-});
 
 // AudioContext is needed for iOS devices
-const AudioContext = window.AudioContext || window.WebkitAudioContext;
+const AudioContext = window.AudioContext //|| window.WebkitAudioContext;
 const audioCtx = new AudioContext();
-audios.forEach(audio => {
-    const track = audioCtx.createMediaElementSource(audio)
-    track.connect(audioCtx.destination);
-});
+const tracks = audios.map(audio => audioCtx.createMediaElementSource(audio));
+const gainNodes = audios.map(() => audioCtx.createGain());
+// Connect everything
+audios.forEach((audio, audioIdx) => {
+    tracks[audioIdx].connect(gainNodes[audioIdx]);
+
+    gainNodes[audioIdx].connect(audioCtx.destination);
+    gainNodes[audioIdx].gain.value = 0;
+
+    audio.loop = true;
+})
 
 function setup() {
     setupTravellerCards();
@@ -145,16 +149,17 @@ function startDeviationChecker() {
 function setDeviation() {
     const deviationAmountElement = document.querySelector(".deviation-text");
 
+    // Calculate the minimum and maximum timestamps
     let minTimestamp = 999;
     let maxTimestamp = 0;
     let allMuted = true;
-    for(const audio of audios) {
-        if(audio.volume === 0) continue;
+    audios.forEach((audio, audioIdx) => {
+        if(isAudioMuted(audioIdx)) return;
 
         allMuted = false;
         minTimestamp = Math.min(minTimestamp, audio.currentTime);
         maxTimestamp = Math.max(maxTimestamp, audio.currentTime);
-    }
+    });
     
     let deviationMs = 0;
     if(!allMuted) {
@@ -171,6 +176,10 @@ function setDeviation() {
     deviationAmountElement.innerHTML = `Travelers are out of sync by ${Math.round(deviationMs)} ms`;
 
     updateProbeLaunchTime()
+}
+
+function isAudioMuted(audioIndex) {
+    return gainNodes[audioIndex].gain.value === 0;
 }
 
 /**
@@ -199,8 +208,7 @@ function setupTravellerCards() {
         const dataAttrSelector = `[data-traveller-name="${info["name"]}"]`;
         const icon = document.querySelector(`.traveller-card__icon${dataAttrSelector}`);
         icon.onclick = () => {
-            const isMuted = audios[i].volume === 0;
-            setVolumeAndAffectInput(info["name"], isMuted ? 100 : 0);
+            setVolumeAndAffectInput(info["name"], isAudioMuted(i) ? 100 : 0);
         }
     }
 
@@ -276,8 +284,9 @@ function setVolume(travellerName, percent) {
         syncSpecificAudio(travellerIndex);
     }
 
-    const audio = audios[travellerIndex];
-    audio.volume = percent / 100;
+    // const audio = audios[travellerIndex];
+    // audio.volume = percent / 100;
+    gainNodes[travellerIndex].gain.value = percent / 100;
 
     // Add effects to the traveller icon
     document.querySelector(`.traveller-card[data-traveller-name="${travellerName}"]`).style.setProperty("--fraction", percent / 100);
@@ -327,8 +336,8 @@ function playAll() {
     // If *ALL* travellers are muted, then pressing play should set volumes to 100. Just for user convenience.
 
     let allMuted = true;
-    for(const audio of audios) {
-        if(audio.volume !== 0) {
+    for(let i = 0; i < audios.length; ++i) {
+        if(!isAudioMuted(i)) {
             allMuted = false;
             break;
         }
