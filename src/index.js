@@ -15,8 +15,10 @@ const audios = travellers.map(info => {
     return new Audio(`./music/${info["name"]}.mp3`);
 });
 
-// AudioContext is needed for iOS devices
-const AudioContext = window.AudioContext //|| window.WebkitAudioContext;
+// RAHHHHHHHH I HATE TESTING ON iOS
+const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
+
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 const tracks = audios.map(audio => audioCtx.createMediaElementSource(audio));
 const gainNodes = audios.map(() => audioCtx.createGain());
@@ -33,7 +35,17 @@ audios.forEach((audio, audioIdx) => {
 function setup() {
     setupTravellerCards();
     setupMediaControls();
-    startDeviationChecker();
+
+    // iOS audio is wonky, setting currentTime on each audio does NOT synchronize it properly.
+    if(!isIOS) {
+        document.querySelector(".deviation-text").innerHTML =
+            "Travelers may be out of sync";
+        document.querySelector(".control-item--deviation > .control-title").innerHTML =
+            "On iOS, there is nothing you can do about it";
+    } else {
+        startDeviationChecker();
+    }
+
     setupSupernova();
     setupKeyboardListener();
     setupMediaSession();
@@ -124,7 +136,9 @@ function setupMediaControls() {
     };
     document.querySelector("#button--volume-0").onclick = () => setVolumeAll(0);
     document.querySelector("#button--volume-100").onclick = () => setVolumeAll(100);
-    document.querySelector("#button--sync").onclick = sync;
+    if(!isIOS) {
+        document.querySelector("#button--sync").onclick = sync;
+    }
     document.querySelector(".playback-speed-input").oninput = function() {
         setGlobalPlaybackSpeed(parseFloat(this.value));
     }
