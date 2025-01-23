@@ -16,7 +16,16 @@ const audios = travellers.map(info => {
 });
 
 // RAHHHHHHHH I HATE TESTING ON iOS
-const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent || navigator.vendor || (window.opera && opera.toString() === `[object Opera]`));
+const isIOS = [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
@@ -37,7 +46,7 @@ function setup() {
     setupMediaControls();
 
     // iOS audio is wonky, setting currentTime on each audio does NOT synchronize it properly.
-    if(!isIOS) {
+    if(isIOS) {
         document.querySelector(".deviation-text").innerHTML =
             "Travelers may be out of sync";
         document.querySelector(".control-item--deviation > .control-title").innerHTML =
